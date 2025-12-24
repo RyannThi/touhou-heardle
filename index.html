@@ -64,21 +64,27 @@
 <script>
     const modeBtn = document.getElementById('toggleModeBtn');
     const nextBtn = document.getElementById('nextSongBtn');
+    
+    // Check the same localStorage key
     const isInfinite = localStorage.getItem('touhou_heardle_infinite') === 'true';
 
     modeBtn.textContent = isInfinite ? 'Switch to Daily' : 'Switch to Infinite';
+    
     if (isInfinite) {
-        nextBtn.style.display = 'block';
+        if(nextBtn) nextBtn.style.display = 'block';
     }
 
     modeBtn.onclick = function() {
+        // Toggle the boolean string
         localStorage.setItem('touhou_heardle_infinite', !isInfinite);
         location.reload();
     };
 
-    nextBtn.onclick = function() {
-        location.reload();
-    };
+    if(nextBtn) {
+        nextBtn.onclick = function() {
+            location.reload();
+        };
+    }
 </script>
 </body>
 </html>

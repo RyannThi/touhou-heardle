@@ -12583,16 +12583,28 @@ var app = (function () {
     let r, s, i, o;
     u(e, Cn, (e) => n(26, (r = e))), u(e, On, (e) => n(27, (s = e)));
 
-    /* --- START INFINITE MODE INIT --- */
-    /* PATCH START */
-let isInf = localStorage.getItem("touhou_heardle_infinite") === "true";
+/* PATCH START */
+// Use window.isInf to make it available everywhere
+window.isInf = localStorage.getItem("touhou_heardle_infinite") === "true";
+
 let a;
-if (isInf && s && s.length > 0) {
+if (window.isInf && s && s.length > 0) {
+    // Pick random song
     a = Math.floor(Math.random() * s.length);
 } else {
+    // Pick daily song
     a = x(Vt.startDate);
 }
-let l = { url: s[a] ? s[a].url : "", correctAnswer: s[a] ? s[a].answer : "", id: a, guessList: [], hasFinished: !1, hasStarted: !1, };
+
+// Safety check: ensure s[a] exists before accessing properties
+let l = { 
+    url: s[a] ? s[a].url : "", 
+    correctAnswer: s[a] ? s[a].answer : "", 
+    id: a, 
+    guessList: [], 
+    hasFinished: !1, 
+    hasStarted: !1, 
+};
 /* PATCH END */
     setCurrentHeardle(l);
 
@@ -12613,14 +12625,16 @@ let l = { url: s[a] ? s[a].url : "", correctAnswer: s[a] ? s[a].answer : "", id:
     null == localStorage.getItem("userStats") ? ((h = []), localStorage.setItem("userStats", JSON.stringify(h))) : (h = JSON.parse(localStorage.getItem("userStats")));
 
     /* STATS PATCH */
-if (isInf) {
-    f = undefined;
+if (window.isInf) {
+    f = undefined; // Always start fresh in infinite mode
 } else {
     f = h.find((e) => e.id === l.id);
 }
+
 if (void 0 === f) {
     f = l;
-    if (!isInf) {
+    // Only save to history if NOT in infinite mode
+    if (!window.isInf) {
         h.push(f);
         localStorage.setItem("userStats", JSON.stringify(h));
     }
@@ -12731,14 +12745,14 @@ if (void 0 === f) {
           ),
           evaluateGuessMetadata(v);
           n(5, (f.guessList = v), f),
-          (!isInfinite && localStorage.setItem("userStats", JSON.stringify(h))),
+          (!window.isInf && localStorage.setItem("userStats", JSON.stringify(h))),
           (v.length != Vt.maxAttempts && 1 != s) ||
             ((o = s),
             n(8, (w.gameIsActive = !1), w),
             n(5, (f.hasFinished = !0), f),
             n(5, (f.gotCorrect = o), f),
             n(5, (f.score = v.length), f),
-            (!isInfinite && localStorage.setItem("userStats", JSON.stringify(h))),
+            (!window.isInf && localStorage.setItem("userStats", JSON.stringify(h))),
             i.resetAndPlay(),
             o
               ? (pe("wonGame", {
