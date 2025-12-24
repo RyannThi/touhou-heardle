@@ -12582,66 +12582,45 @@ var app = (function () {
   function jn(e, t, n) {
     let r, s, i, o;
     u(e, Cn, (e) => n(26, (r = e))), u(e, On, (e) => n(27, (s = e)));
-
-/* PATCH START */
-// Use window.isInf to make it available everywhere
-window.isInf = localStorage.getItem("touhou_heardle_infinite") === "true";
-
-let a;
-if (window.isInf && s && s.length > 0) {
-    // Pick random song
-    a = Math.floor(Math.random() * s.length);
-} else {
-    // Pick daily song
-    a = x(Vt.startDate);
-}
-
-// Safety check: ensure s[a] exists before accessing properties
-let l = { 
-    url: s[a] ? s[a].url : "", 
-    correctAnswer: s[a] ? s[a].answer : "", 
-    id: a, 
-    guessList: [], 
-    hasFinished: !1, 
-    hasStarted: !1, 
-};
-/* PATCH END */
+    /* PATCH */ let a = window.inf ? Math.floor(Math.random() * s.length) : x(Vt.startDate), l = { url: s[a] ? s[a].url : "", correctAnswer: s[a] ? s[a].answer : "", id: a, guessList: [], hasFinished: !1, hasStarted: !1, };
     setCurrentHeardle(l);
-
-    // Visibility change listener (Auto-reload if day changes)
+    // console.log("a", l);
     var c, d;
-    void 0 !== document.hidden ? ((c = "hidden"), (d = "visibilitychange")) : void 0 !== document.msHidden ? ((c = "msHidden"), (d = "msvisibilitychange")) : void 0 !== document.webkitHidden && ((c = "webkitHidden"), (d = "webkitvisibilitychange")), void 0 === document.addEventListener || void 0 === c || document.addEventListener(d, function() {
-        document[c] || a === x(Vt.startDate) || location.reload(!0);
-    }, !1);
-
-    // Initialize stats variables (This was missing before!)
-    let h, f, m = 0;
+    void 0 !== document.hidden
+      ? ((c = "hidden"), (d = "visibilitychange"))
+      : void 0 !== document.msHidden
+      ? ((c = "msHidden"), (d = "msvisibilitychange"))
+      : void 0 !== document.webkitHidden &&
+        ((c = "webkitHidden"), (d = "webkitvisibilitychange")),
+      void 0 === document.addEventListener ||
+        void 0 === c ||
+        document.addEventListener(
+          d,
+          function () {
+            document[c] || a === x(Vt.startDate) || location.reload(!0);
+          },
+          !1
+        );
+    let h,
+      f,
+      m = 0;
     function p() {
-        n(3, (m = window.innerHeight));
+      n(3, (m = window.innerHeight));
     }
     P(() => {
-        p();
+      p();
     });
-    null == localStorage.getItem("userStats") ? ((h = []), localStorage.setItem("userStats", JSON.stringify(h))) : (h = JSON.parse(localStorage.getItem("userStats")));
-
-    /* STATS PATCH */
-if (window.isInf) {
-    f = undefined; // Always start fresh in infinite mode
-} else {
-    f = h.find((e) => e.id === l.id);
-}
-
-if (void 0 === f) {
-    f = l;
-    // Only save to history if NOT in infinite mode
-    if (!window.isInf) {
-        h.push(f);
-        localStorage.setItem("userStats", JSON.stringify(h));
-    }
-}
-/* STATS PATCH END */
-
-    let g, y, v = f.guessList
+    null == localStorage.getItem("userStats")
+      ? ((h = []), localStorage.setItem("userStats", JSON.stringify(h)))
+      : (h = JSON.parse(localStorage.getItem("userStats"))),
+      (f = h.find((e) => e.id === l.id)),
+      void 0 === f &&
+        ((f = l),
+        h.push(f),
+        localStorage.setItem("userStats", JSON.stringify(h)));
+    let g,
+      y,
+      v = f.guessList,
       w = {
         gameIsActive: !1,
         musicIsPlaying: !1,
@@ -12745,14 +12724,14 @@ if (void 0 === f) {
           ),
           evaluateGuessMetadata(v);
           n(5, (f.guessList = v), f),
-          (!window.isInf && localStorage.setItem("userStats", JSON.stringify(h))),
+          localStorage.setItem("userStats", JSON.stringify(h)),
           (v.length != Vt.maxAttempts && 1 != s) ||
             ((o = s),
             n(8, (w.gameIsActive = !1), w),
             n(5, (f.hasFinished = !0), f),
             n(5, (f.gotCorrect = o), f),
             n(5, (f.score = v.length), f),
-            (!window.isInf && localStorage.setItem("userStats", JSON.stringify(h))),
+            localStorage.setItem("userStats", JSON.stringify(h)),
             i.resetAndPlay(),
             o
               ? (pe("wonGame", {

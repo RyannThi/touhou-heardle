@@ -62,29 +62,39 @@
 </div>
 
 <script>
+    // 1. Initialize Mode
+    const isInfinite = localStorage.getItem('touhou_heardle_infinite') === 'true';
+    window.inf = isInfinite; // Global flag for main.js
+
+    // 2. Block Stats Saving in Infinite Mode
+    if (isInfinite) {
+        const originalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key, value) {
+            // Block these keys to prevent corrupting daily stats
+            if (key === "userStats" || key === "gameState") {
+                return;
+            }
+            originalSetItem.apply(this, arguments);
+        };
+    }
+
+    // 3. UI Logic
     const modeBtn = document.getElementById('toggleModeBtn');
     const nextBtn = document.getElementById('nextSongBtn');
-    
-    // Check the same localStorage key
-    const isInfinite = localStorage.getItem('touhou_heardle_infinite') === 'true';
 
     modeBtn.textContent = isInfinite ? 'Switch to Daily' : 'Switch to Infinite';
-    
     if (isInfinite) {
-        if(nextBtn) nextBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
     }
 
     modeBtn.onclick = function() {
-        // Toggle the boolean string
         localStorage.setItem('touhou_heardle_infinite', !isInfinite);
         location.reload();
     };
 
-    if(nextBtn) {
-        nextBtn.onclick = function() {
-            location.reload();
-        };
-    }
+    nextBtn.onclick = function() {
+        location.reload();
+    };
 </script>
 </body>
 </html>

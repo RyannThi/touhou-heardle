@@ -630,31 +630,24 @@ let _metadata = createMetadata({
  "TH20 FW - Beloved Daily Life (愛おしき日常)":["TH20"],
  "TH20 FW - To a World With Life and Death (生と死のある世界へ)":["TH20"],   
     })
-/* --- PASTE THIS BELOW THE METADATA LIST --- */
-
-// We use 'var' here to prevent "Identifier has already been declared" errors
+/* Safe extension.js */
 var currentHeardle = null;
 var stats;
 var parsedStats;
 
+// Helper to safely get metadata without crashing
 function createMetadata(mtd) {
     let m = {}
     for(const soundtrack in mtd) {
-        m[soundtrack] = {
-            'game': mtd[soundtrack][0],
-        }
+        m[soundtrack] = { 'game': mtd[soundtrack][0] }
     }
     return m
 }
 
-function _onSubmit() {
-}
+function _onSubmit() {}
 
 function appendMetadata(guess, row) {
-    if(!guess.isCorrect) {
-        // Safety check: ensure currentHeardle is set
-        if (!currentHeardle || !currentHeardle.correctAnswer) return;
-
+    if(!guess.isCorrect && currentHeardle && currentHeardle.correctAnswer) {
         let guessMeta = _metadata[guess.answer]
         let heardleMeta = _metadata[currentHeardle.correctAnswer]
         if(guessMeta && heardleMeta) {
@@ -671,27 +664,20 @@ function setCurrentHeardle(l) {
     currentHeardle = l; 
     setTimeout(() => {
         const rows = document.querySelectorAll("body > main > div.w-full.flex.flex-col.flex-grow.relative > div > div > div");
-        
-        // Safety: Stop if the game interface hasn't loaded rows yet
         if (!rows || rows.length === 0) return;
 
         stats = localStorage.getItem("userStats")
         if(stats != null ) {
             try {
-                parsedStats = JSON.parse(stats);
-                
-                // Safety: Find stats ONLY for this specific song
-                // (In infinite mode, random songs might not have stats, this prevents crashing)
+                parsedStats = JSON.parse(stats)
+                // Safe check: find stats only for this specific song
                 const songStats = parsedStats.find(p => p.correctAnswer == currentHeardle.correctAnswer);
-                
                 if (songStats && songStats.guessList) {
                     songStats.guessList.forEach((guess, index) => {
-                        // Logic for replaying guesses (if needed)
+                        // Replay logic
                     })
                 }
-            } catch (e) {
-                console.log("Stats error ignored:", e);
-            }
+            } catch(e) { console.log("Stats error bypassed", e); }
         }
     }, 200)
 }
@@ -699,7 +685,6 @@ function setCurrentHeardle(l) {
 function evaluateGuessMetadata(v) {
     const rows = document.querySelectorAll("body > main > div.w-full.flex.flex-col.flex-grow.relative > div > div > div");
     if (!rows.length || !v.length) return;
-
     const last = v[v.length-1]
     if (rows[v.length-1]) {
         appendMetadata(last, rows[v.length-1]);
