@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Touhou Heardle</title>
-<meta name="description" content="Guess the Touhou song from the intro in as little tries as possible.">
-<meta itemprop="name" content="Touhou Heardle">
-<meta itemprop="description" content="Guess the Touhou song from the intro in as little tries as possible.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Touhou Heardle</title>
+    <meta name="description" content="Guess the Touhou song from the intro in as little tries as possible.">
+    <meta itemprop="name" content="Touhou Heardle">
+    <meta itemprop="description" content="Guess the Touhou song from the intro in as little tries as possible.">
 
 
-<meta property="og:url" content="https://joywave-heardle.glitch.me/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Touhou Heardle">
-<meta property="og:description" content="Guess the Touhou song from the intro in as little tries as possible.">
-
-  
-<!-- EDIT THE content= TAGS on lines 23-25 WITH A LINK TO AN IMAGE THAT WILL SHOW UP WHEN YOU SHARE THE LINK   -->
-<meta itemprop="image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
-<meta property="og:image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
-<meta name="twitter:image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
+    <meta property="og:url" content="https://joywave-heardle.glitch.me/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Touhou Heardle">
+    <meta property="og:description" content="Guess the Touhou song from the intro in as little tries as possible.">
 
 
-<!-- EDIT THE href TAGS  on lines 29-33 WITH A LINK THATLL SHOW UP AS AN ICON IN YOUR BROWSER   -->
-<link rel="icon" type="image/png" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
-<link rel="icon" type="image/png" sizes="32x32" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
-<link rel="icon" type="image/png" sizes="16x16" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
-<link rel="apple-touch-icon" sizes="180x180" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
-<link rel="shortcut icon" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
-  
-  
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Touhou Heardle">
-<meta name="twitter:description" content="Guess the Touhou song from the intro in as little tries as possible.">
-  
+    <meta itemprop="image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
+    <meta property="og:image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
+    <meta name="twitter:image" content="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/UntitleFd-1.png?v=1649391783304">
 
-<!--     <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="bundle.css" /> -->
+
+    <link rel="icon" type="image/png" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
+    <link rel="shortcut icon" href="https://cdn.glitch.global/3b9bfd97-ed3c-49ce-958c-5d84345983f4/Th075Hourai.png?v=1649432556983">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Touhou Heardle">
+    <meta name="twitter:description" content="Guess the Touhou song from the intro in as little tries as possible.">
+
+
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="bundle.css" />
 
     <script defer src="extension.js"></script>
     <script defer src="main.js"></script>
-    <!-- delete this bit if you don't want to use Google Analytics -->
-    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-390GEFZRFG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-390GEFZRFG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-390GEFZRFG');
-</script>
+        gtag('config', 'G-390GEFZRFG');
+    </script>
 
 
-    <!-- // delete this bit if you don't want to use Google Analytics -->
-    
     <meta name="google-site-verification" content="mHvQuygmScMHb5UQzFz7e5gWQ2qAZuze4PcEgFZj_Zg" />
-    
-  </head>
-  <body></body>
+
+</head>
+<body>
+<div style="position: fixed; top: 10px; right: 10px; z-index: 9999; display: flex; gap: 5px;">
+    <button id="toggleModeBtn" style="background: #333; color: #fff; padding: 8px 12px; border: 1px solid #555; cursor: pointer; border-radius: 4px; font-family: sans-serif; font-size: 14px;">
+        Mode: Loading...
+    </button>
+    <button id="nextSongBtn" style="background: #2a9d8f; color: #fff; padding: 8px 12px; border: 1px solid #1f7a6f; cursor: pointer; border-radius: 4px; font-family: sans-serif; font-size: 14px; display: none;">
+        Next Song
+    </button>
+</div>
+
+<script>
+    const modeBtn = document.getElementById('toggleModeBtn');
+    const nextBtn = document.getElementById('nextSongBtn');
+    const isInfinite = localStorage.getItem('touhou_heardle_infinite') === 'true';
+
+    modeBtn.textContent = isInfinite ? 'Switch to Daily' : 'Switch to Infinite';
+    if (isInfinite) {
+        nextBtn.style.display = 'block';
+    }
+
+    modeBtn.onclick = function() {
+        localStorage.setItem('touhou_heardle_infinite', !isInfinite);
+        location.reload();
+    };
+
+    nextBtn.onclick = function() {
+        location.reload();
+    };
+</script>
+</body>
 </html>

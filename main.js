@@ -12582,53 +12582,52 @@ var app = (function () {
   function jn(e, t, n) {
     let r, s, i, o;
     u(e, Cn, (e) => n(26, (r = e))), u(e, On, (e) => n(27, (s = e)));
-    let a = x(Vt.startDate),
-      l = {
-        url: s[a].url,
-        correctAnswer: s[a].answer,
-        id: a,
-        guessList: [],
-        hasFinished: !1,
-        hasStarted: !1,
-      };
+
+    /* --- START INFINITE MODE INIT --- */
+    /* PATCH START */
+let isInf = localStorage.getItem("touhou_heardle_infinite") === "true";
+let a;
+if (isInf && s && s.length > 0) {
+    a = Math.floor(Math.random() * s.length);
+} else {
+    a = x(Vt.startDate);
+}
+let l = { url: s[a] ? s[a].url : "", correctAnswer: s[a] ? s[a].answer : "", id: a, guessList: [], hasFinished: !1, hasStarted: !1, };
+/* PATCH END */
     setCurrentHeardle(l);
-    // console.log("a", l);
+
+    // Visibility change listener (Auto-reload if day changes)
     var c, d;
-    void 0 !== document.hidden
-      ? ((c = "hidden"), (d = "visibilitychange"))
-      : void 0 !== document.msHidden
-      ? ((c = "msHidden"), (d = "msvisibilitychange"))
-      : void 0 !== document.webkitHidden &&
-        ((c = "webkitHidden"), (d = "webkitvisibilitychange")),
-      void 0 === document.addEventListener ||
-        void 0 === c ||
-        document.addEventListener(
-          d,
-          function () {
-            document[c] || a === x(Vt.startDate) || location.reload(!0);
-          },
-          !1
-        );
-    let h,
-      f,
-      m = 0;
+    void 0 !== document.hidden ? ((c = "hidden"), (d = "visibilitychange")) : void 0 !== document.msHidden ? ((c = "msHidden"), (d = "msvisibilitychange")) : void 0 !== document.webkitHidden && ((c = "webkitHidden"), (d = "webkitvisibilitychange")), void 0 === document.addEventListener || void 0 === c || document.addEventListener(d, function() {
+        document[c] || a === x(Vt.startDate) || location.reload(!0);
+    }, !1);
+
+    // Initialize stats variables (This was missing before!)
+    let h, f, m = 0;
     function p() {
-      n(3, (m = window.innerHeight));
+        n(3, (m = window.innerHeight));
     }
     P(() => {
-      p();
+        p();
     });
-    null == localStorage.getItem("userStats")
-      ? ((h = []), localStorage.setItem("userStats", JSON.stringify(h)))
-      : (h = JSON.parse(localStorage.getItem("userStats"))),
-      (f = h.find((e) => e.id === l.id)),
-      void 0 === f &&
-        ((f = l),
-        h.push(f),
-        localStorage.setItem("userStats", JSON.stringify(h)));
-    let g,
-      y,
-      v = f.guessList,
+    null == localStorage.getItem("userStats") ? ((h = []), localStorage.setItem("userStats", JSON.stringify(h))) : (h = JSON.parse(localStorage.getItem("userStats")));
+
+    /* STATS PATCH */
+if (isInf) {
+    f = undefined;
+} else {
+    f = h.find((e) => e.id === l.id);
+}
+if (void 0 === f) {
+    f = l;
+    if (!isInf) {
+        h.push(f);
+        localStorage.setItem("userStats", JSON.stringify(h));
+    }
+}
+/* STATS PATCH END */
+
+    let g, y, v = f.guessList
       w = {
         gameIsActive: !1,
         musicIsPlaying: !1,
@@ -12732,14 +12731,14 @@ var app = (function () {
           ),
           evaluateGuessMetadata(v);
           n(5, (f.guessList = v), f),
-          localStorage.setItem("userStats", JSON.stringify(h)),
+          (!isInfinite && localStorage.setItem("userStats", JSON.stringify(h))),
           (v.length != Vt.maxAttempts && 1 != s) ||
             ((o = s),
             n(8, (w.gameIsActive = !1), w),
             n(5, (f.hasFinished = !0), f),
             n(5, (f.gotCorrect = o), f),
             n(5, (f.score = v.length), f),
-            localStorage.setItem("userStats", JSON.stringify(h)),
+            (!isInfinite && localStorage.setItem("userStats", JSON.stringify(h))),
             i.resetAndPlay(),
             o
               ? (pe("wonGame", {

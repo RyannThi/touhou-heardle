@@ -656,18 +656,39 @@ function appendMetadata(guess, row) {
     }
 }
 
+var currentHeardle;
+var stats;
+var parsedStats; // Fixed typo from original 'paresdStats'
+
 function setCurrentHeardle(l) {
-    currentHeardle = l; 
+    currentHeardle = l;
     setTimeout(() => {
         const rows = document.querySelectorAll("body > main > div.w-full.flex.flex-col.flex-grow.relative > div > div > div");
-        stats = localStorage.getItem("userStats")
-        if(stats != null ) {
-            paresdStats = JSON.parse(stats)
-            paresdStats.filter(p => p.correctAnswer == currentHeardle.correctAnswer)[0].guessList.forEach((guess, index) => {
-             
-            })
+        stats = localStorage.getItem("userStats");
+        
+        if (stats != null) {
+            try {
+                parsedStats = JSON.parse(stats);
+                
+                // Safety: Check if currentHeardle exists
+                if (!currentHeardle) return;
+
+                // Find stats for the current song
+                const songStats = parsedStats.filter(p => p.correctAnswer == currentHeardle.correctAnswer)[0];
+
+                // Safety: Only proceed if stats exist for this song
+                if (songStats && songStats.guessList) {
+                    songStats.guessList.forEach((guess, index) => {
+                        if (rows[index]) {
+                            // Replay logic can go here if needed, but usually this is just for display
+                        }
+                    });
+                }
+            } catch (e) {
+                console.log("Extension stats error (harmless in Infinite Mode):", e);
+            }
         }
-    }, 200)
+    }, 200);
 }
 
 function evaluateGuessMetadata(v) {
